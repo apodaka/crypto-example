@@ -33,12 +33,12 @@ const encripter = {
     this.decrypt = crypto.createDecipher(options.algoritm, options.password);
     return this;
   },
-  set value(val) {
-    this.val = val;
-    return this;
-  },
   cypher(data = null) {
-    if (this.encrypt) {
+    const validTypes = ["string", "object", "number"];
+    if (
+      this.encrypt !== null &&
+      (validTypes.includes(typeof data) || Object.is)
+    ) {
       const thisValue = typeof val !== "string" ? JSON.stringify(data) : data;
       const mystr = this.encrypt.update(thisValue, "utf8", "hex");
       const final = this.encrypt.final("hex");
