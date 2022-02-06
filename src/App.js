@@ -104,9 +104,7 @@ const encrypter = {
 };
 
 const useCyptoExample = (data = null, options = {}) => {
-  const encrypt = encrypter.configure({
-    algoritm: "sha256"
-  });
+  const encrypt = encrypter.configure();
   const { encrypted } = encrypt.cypher(obj).getLast;
   const { decrypted } = encrypt.decypher(encrypted).value;
   console.log("Encrypted", encrypter);
