@@ -1,7 +1,8 @@
 import "./styles.css";
-// import CryptoJS from 'crypto-js/aes';
+import AES from 'crypto-js/aes';
 import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
+import produce from "immer";
 
 const obj = {
   persona: {
@@ -11,10 +12,14 @@ const obj = {
   }
 };
 
+const JSONData = {"email":"sol@sol.com","name":"Sham","simulationId":"cf343256-4fc6-4628-b035-64244fdc56aa","creditType":"REAL_ESTATE","phoneNumber":"5531087743","leadId":"DEV0000005048","redirectVerification":"www.ion.com","source":"PARTNER_HOMIE"}
+
+
+
 const encrypter = {
   val: null,
-  password: "CONTRSEÑA",
-  algoritm: "sha256",
+  password: "",
+  algoritm: "",
   encrypt: null,
   decrypt: null,
   inputEncoding: "utf8",
@@ -116,8 +121,21 @@ const useCyptoExample = (data = null, options = {}) => {
   console.log("Objeto decifrado y url formateada!", objPersona);
 };
 
+const useCryptoJSExample = () => {
+  const newObj = produce(obj, (draft) => {
+    // const formatedUrl = draft.persona.website;
+    draft.persona.website = encodeURIComponent(draft.persona.website)
+  })
+  const password = 'P4swO0rd!';
+  const hash = AES.encrypt(JSON.stringify(JSONData, null, 2), password)
+
+  console.log('Crypto-JS AES.encrypt hash', hash)
+  const { decrypted } = encrypter.configure().decypher(hash).value;
+}
+
 export default function App() {
   useCyptoExample();
+  useCryptoJSExample();
   return (
     <div className="App">
       <h2>Objeto sin encriptar</h2>
